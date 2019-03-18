@@ -88,7 +88,7 @@ int main(int argc, char *argv[]) {
 	
 	// Υπολογισμός χρόνου, σε seconds, και απόδοσης φορτίου με τη μετρική Megaflops
 	float time = (te-ts);
-	float mflops = (2.0*N*N) / (time*1e6);
+	float mflops = (N*N*N) / (time*1e6);
 	printf("time: %f and mflops: %f\n", time, mflops);
 	
 	// Έλεγχος αποτελεσμάτων από το φορτίο
