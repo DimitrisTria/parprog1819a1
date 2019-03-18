@@ -1,5 +1,7 @@
 /*
-* command: gcc -O2 matmul-normal.c -o matmul-normal -DN=?
+* Όπoυ N αριθμός μεγέθους πινάκων και να διαιρείται με το 4
+* run command: gcc -O2 matmul-normal.c -o matmul-normal -DN=?
+* export Assembler source file: gcc -O2 matmul-normal.c -S -DN=?
 */
 
 #include <stdio.h>
@@ -41,24 +43,21 @@ int main(int argc, char* argv[]) {
 		*pc = 0.0;
 		pa++; pb++; pc++;
 	}
-
+	
+	// Επαναφορά δεικτών στην αρχή των πινάκων που δείχνουν
 	pa = a; pb = b; pc = c;
-	float sum;
 	
 	// Φορτίο	
 	double ts, te;
 	get_walltime(&ts);
-	pc = c;
 	for(k=0; k<N; k++) {
 		pb = b;
 		for(j=0; j<N; j++) {
 			pa = a + k*N;
-			sum = 0;
 			for(i=0; i<N; i++) {
-				sum = sum + (*pa) * (*pb);
+				*pc = *pc + (*pa) * (*pb);
 				pa++; pb++;
 			}
-			*pc = sum;
 			pc++;
 		}
 	}
@@ -80,10 +79,11 @@ int main(int argc, char* argv[]) {
 		pc++;
 	}
 	
-	// Αποδέσμευση δυναμικής μνήμης των τριών πινάκων
+	// Αποδέσμευση δυναμικής μνήμης των πινάκων
 	free(a);
 	free(b);
 	free(c);
+	
 	return 0;
 }
 

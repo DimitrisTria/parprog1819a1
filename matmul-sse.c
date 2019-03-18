@@ -1,5 +1,7 @@
 /*
-* command: gcc -O2 matmul-see.c -o matmul-sse -DN=?
+* Όπoυ N αριθμός μεγέθους πινάκων και να διαιρείται με το 4
+* run command: gcc -O2 matmul-see.c -o matmul-sse -DN=?
+* export Assembler source file: gcc -O2 matmul-sse.c -S -DN=?
 */
 
 #include <stdio.h>
@@ -59,7 +61,10 @@ int main(int argc, char *argv[]) {
 		psum++;
 	}
 	
+	// Επαναφορά δεικτών στην αρχή των πινάκων που δείχνουν
 	pa = a; pb = b; pc = c; psum = sum;
+	
+	// Δημιουργία των δεικτών τύπου __m128 για καθένα από τους πίνακες
 	__m128 *ma, *mb, *mc = (__m128*)pc, *msum = (__m128*)psum;
 	
 	//Φορτίο
@@ -102,11 +107,12 @@ int main(int argc, char *argv[]) {
 		pc++;
 	}
 
-	// Αποδέσμευση δυναμικής μνήμης των τριών πινάκων
+	// Αποδέσμευση δυναμικής μνήμης των πινάκων
 	free(a);
 	free(b);
 	free(c);
-
+	free(sum);
+	
 	return 0;
 }
 
