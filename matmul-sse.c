@@ -14,7 +14,7 @@ void get_walltime(double *wct);
 int main(int argc, char *argv[]) {
 	/* a και b: πίνακες που θα πολλαπλασιαστούν μεταξύ τους
 	* c: πίνακας με το αποτέλεσμα των παραπάνω
-	* sum: βοηθητικός πίνακας τεσσάρωβ θέσεων που χρησιμεύει
+	* sum: βοηθητικός πίνακας τεσσάρων θέσεων που χρησιμεύει
 	*	   στον στον υπολογισμό κάθε στοιχείου το πίνακα c */
 	float *a, *b, *c, *sum;
 	
@@ -61,7 +61,7 @@ int main(int argc, char *argv[]) {
 		psum++;
 	}
 	
-	// Επαναφορά δεικτών στην αρχή των πινάκων που δείχνουν
+	// Επαναφορά δεικτών στην αρχή των πινάκων
 	pa = a; pb = b; pc = c; psum = sum;
 	
 	// Δημιουργία των δεικτών τύπου __m128 για καθένα από τους πίνακες
@@ -74,7 +74,7 @@ int main(int argc, char *argv[]) {
 		mb = (__m128*)pb;
 		for(j=0; j<N; j++) {
 			ma = (__m128*)(a + k*N);
-			*msum = _mm_set_ps(0.0, 0.0, 0.0, 0.0);
+			*msum = _mm_set_ps(0.0, 0.0, 0.0, 0.0);		// Αρχικοποίηση τιμών του δείκτη msum στο 0
 			for(i=0; i<N; i+=4) {
 				*msum = _mm_add_ps(*msum, _mm_mul_ps(*ma, *mb));
 				ma++; mb++;
@@ -93,7 +93,7 @@ int main(int argc, char *argv[]) {
 	
 	// Υπολογισμός χρόνου, σε seconds, και απόδοσης φορτίου με τη μετρική Megaflops
 	float time = (te-ts);
-	float mflops = (N*N*N) / (time*1e6);
+	float mflops = (1.0*N*N*N) / (time*1e6);
 	printf("time: %f and mflops: %f\n", time, mflops);
 	
 	// Έλεγχος αποτελεσμάτων από το φορτίο
@@ -102,7 +102,7 @@ int main(int argc, char *argv[]) {
 	for(i=0; i<N*N; i++) {
 		if(*pc != 2.0*3.0*N) {
 			printf("Error at c[%d], excpected '%f', get '%f'\n", i, check_val, *pc);
-			return 1;
+			break;
 		}
 		pc++;
 	}

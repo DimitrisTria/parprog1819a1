@@ -44,7 +44,7 @@ int main(int argc, char* argv[]) {
 		pa++; pb++; pc++;
 	}
 	
-	// Επαναφορά δεικτών στην αρχή των πινάκων που δείχνουν
+	// Επαναφορά δεικτών στην αρχή των πινάκων
 	pa = a; pb = b; pc = c;
 	
 	// Φορτίο	
@@ -65,7 +65,7 @@ int main(int argc, char* argv[]) {
 	
 	// Υπολογισμός χρόνου, σε seconds, και απόδοσης φορτίου με τη μετρική Megaflops
 	float time = (te-ts);
-	float mflops = (N*N*N) / (time*1e6);
+	float mflops = (1.0*N*N*N) / (time*1e6);
 	printf("time: %f and mflops: %f\n", time, mflops);
 	
 	// Έλεγχος αποτελεσμάτων από το φορτίο
@@ -74,7 +74,7 @@ int main(int argc, char* argv[]) {
 	for(i=0; i<N*N; i++) {
 		if(*pc != 2.0*3.0*N) {
 			printf("Error at c[%d], excpected '%f', get '%f'\n", i, check_val, *pc);
-			return 1;
+			break;
 		}
 		pc++;
 	}
